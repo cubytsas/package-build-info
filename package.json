@@ -1,6 +1,6 @@
 {
   "name": "@cubyt/build-info",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Build metadata, browser diagnostics, and deployment notifications for Cubyt sites",
   "license": "MIT",
   "repository": {
