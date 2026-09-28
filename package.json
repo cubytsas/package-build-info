@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Build metadata, browser diagnostics, and deployment notifications for Cubyt sites",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cubytsas/package-build-info.git"
+  },
   "type": "module",
   "engines": {
     "node": ">=20"
