@@ -1,0 +1,40 @@
+name: Report Cubyt deployment to Discord
+description: Send build and deployment results to a Discord webhook without exposing the webhook URL.
+inputs:
+  webhook-url:
+    description: Discord webhook URL, supplied from a GitHub Actions secret.
+    required: true
+  app:
+    description: Public app/site name.
+    required: true
+  environment:
+    description: Deployment environment name.
+    required: true
+  build-status:
+    description: Outcome of the build step (success, failure, or skipped).
+    required: true
+  deploy-status:
+    description: Outcome of deployment, or not-configured when this workflow only validates a build.
+    required: true
+  deployment-url:
+    description: Public URL for the deployed app.
+    required: false
+    default: ""
+  metadata-path:
+    description: Path to the public build metadata JSON file.
+    required: false
+    default: dist/build-info.json
+runs:
+  using: composite
+  steps:
+    - name: Send deployment status
+      shell: bash
+      env:
+        CUBYT_DISCORD_WEBHOOK: ${{ inputs.webhook-url }}
+        CUBYT_APP: ${{ inputs.app }}
+        CUBYT_ENVIRONMENT: ${{ inputs.environment }}
+        CUBYT_BUILD_STATUS: ${{ inputs.build-status }}
+        CUBYT_DEPLOY_STATUS: ${{ inputs.deploy-status }}
+        CUBYT_DEPLOYMENT_URL: ${{ inputs.deployment-url }}
+        CUBYT_METADATA_PATH: ${{ inputs.metadata-path }}
+      run: node "$GITHUB_ACTION_PATH/notify.mjs"

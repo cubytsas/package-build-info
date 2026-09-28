@@ -1,0 +1,47 @@
+{
+  "name": "@cubyt/build-info",
+  "version": "1.0.0",
+  "description": "Build metadata, browser diagnostics, and deployment notifications for Cubyt sites",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "vite": ">=6"
+  },
+  "exports": {
+    ".": {
+      "types": "./types/browser.d.ts",
+      "import": "./src/browser.js",
+      "default": "./src/browser.js"
+    },
+    "./browser": {
+      "types": "./types/browser.d.ts",
+      "import": "./src/browser.js",
+      "default": "./src/browser.js"
+    },
+    "./vite": {
+      "types": "./types/vite.d.ts",
+      "import": "./src/vite.js",
+      "default": "./src/vite.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src/browser.js",
+    "src/vite.js",
+    "types/browser.d.ts",
+    "types/vite.d.ts",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "prepublishOnly": "npm test"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
