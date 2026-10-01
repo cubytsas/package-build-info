@@ -67,24 +67,31 @@ if (process.env.CUBYT_DEPLOYMENT_URL) {
   });
 }
 
-const response = await fetch(webhookUrl, {
-  method: "POST",
-  headers: { "content-type": "application/json" },
-  body: JSON.stringify({
-    allowed_mentions: { parse: [] },
-    embeds: [
-      {
-        title: `Cubyt · ${status}`,
-        description: `Workflow [${process.env.GITHUB_WORKFLOW ?? "GitHub Actions"}](${runUrl}) · ${repository}`,
-        color,
-        fields,
-        timestamp: new Date().toISOString(),
-      },
-    ],
-  }),
-});
+let response;
+try {
+  response = await fetch(webhookUrl, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      allowed_mentions: { parse: [] },
+      embeds: [
+        {
+          title: `Cubyt · ${status}`,
+          description: `Workflow [${process.env.GITHUB_WORKFLOW ?? "GitHub Actions"}](${runUrl}) · ${repository}`,
+          color,
+          fields,
+          timestamp: new Date().toISOString(),
+        },
+      ],
+    }),
+    signal: AbortSignal.timeout(10_000),
+  });
+} catch {
+  console.error("Discord deployment notification failed or timed out.");
+  process.exitCode = 1;
+}
 
-if (!response.ok) {
+if (response && !response.ok) {
   console.error(
     `Discord deployment notification failed with HTTP ${response.status}.`,
   );

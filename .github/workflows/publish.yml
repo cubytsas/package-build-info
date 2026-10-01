@@ -12,5 +12,5 @@ permissions:
 
 jobs:
   publish:
-    uses: CubytsAS/.github/.github/workflows/npm-publish.yml@main
+    uses: cubytsas/.github/.github/workflows/npm-publish.yml@main
     secrets: inherit
